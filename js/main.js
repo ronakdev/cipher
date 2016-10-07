@@ -1,6 +1,15 @@
 var encode = true;
 function toggleEncode() {
     encode = !encode;
+    
+    var checkbox = document.getElementById("myonoffswitch");
+    checkbox.checked = true;
+    if (encode) {
+        document.getElementById("action").innerHTML = "Encode";
+    }
+    else {
+        document.getElementById("action").innerHTML = "Decode";
+    }
 }
 document.getElementById('crypt').onkeypress = function(e){
     if (!e) e = window.event;
@@ -24,7 +33,7 @@ function crypt() {
     console.log(output);
     
     document.getElementById("crypt").value = output;
-    //encode = !encode;
+    toggleEncode();
 }
 
 function encrypt(input) {

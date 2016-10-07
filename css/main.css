@@ -17,7 +17,7 @@ input {
    
 }
 #crypt {
-     width: 65%;
+    width: 65%;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     font-size: 5em;
@@ -26,11 +26,11 @@ input {
 
 #settings {
     width: 35%;
-    text-align: center;
     font-family: 'Open Sans', sans-serif;
     font-size: 2em;
     color: white;
     background-color: #C5CAE9;
+    
 }
 *:focus {
     outline: none;
@@ -64,7 +64,85 @@ input {
   }
 
  
+/*  Buttons  */
+.material-button {
+  position: relative;
 
+  display: block;
+  margin: 30px auto;
+  padding: 0;
+
+  overflow: hidden;
+
+  border-width: 0;
+  outline: none;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+  
+  background-color: #2ecc71;
+  color: #ecf0f1;
+  
+  transition: background-color .3s;
+}
+
+.material-button:hover, .material-button:focus {
+  background-color: #27ae60;
+}
+
+.material-button > * {
+  position: relative;
+}
+
+.material-button span {
+  display: block;
+  padding: 12px 24px;
+}
+
+.material-button:before {
+  content: "";
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  
+  display: block;
+  width: 0;
+  padding-top: 0;
+    
+  border-radius: 100%;
+  
+  background-color: rgba(236, 240, 241, .3);
+  
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.material-button:active:before {
+  width: 120%;
+  padding-top: 120%;
+  
+  transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+
+.material-button.orange {
+  background-color: #e67e22;
+}
+
+.material-button.orange:hover, .material-button.orange:focus {
+  background-color: #d35400;
+}
+
+.material-button.red {
+  background-color: #e74c3c;
+}
+
+.material-button.red:hover, .material-button.red:focus {
+  background-color: #c0392b;
+}
 /*  On-Off Buttons  */
 
 .onoffswitch {
