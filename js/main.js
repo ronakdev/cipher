@@ -1,7 +1,8 @@
 var encode = true;
+
 function toggleEncode() {
     encode = !encode;
-    
+    document.getElementById('myonoffswitch').click();
     var checkbox = document.getElementById("myonoffswitch");
     checkbox.checked = true;
     if (encode) {
@@ -11,6 +12,7 @@ function toggleEncode() {
         document.getElementById("action").innerHTML = "Decode";
     }
 }
+
 document.getElementById('crypt').onkeypress = function(e){
     if (!e) e = window.event;
     var keyCode = e.keyCode || e.which;
@@ -25,10 +27,10 @@ function crypt() {
     var output = "";
     console.log(content);
     if(encode) {
-        output = (encrypt(content));
+        output = (encrypt(content,10));
     }
     else {
-        output = decrypt(content);
+        output = decrypt(content,10);
     }
     console.log(output);
     
@@ -36,7 +38,7 @@ function crypt() {
     toggleEncode();
 }
 
-function encrypt(input) {
+function encrypt(input,level) {
     var array = input.split("");
     
     var output = [];
@@ -47,20 +49,48 @@ function encrypt(input) {
     for(var j = 0; j < array.length - 2; j++) {
         output[j + 2] = array[j]
     }
+        console.log("Just Swapped: " + output.join(""));
+
+    for (var j = 0; j < output.length; j++) {
+      var charcode = output[j].charCodeAt() + level;
+      console.log(charcode);
+      
+      output[j] = String.fromCharCode(charcode);
+    }
+    console.log("Just Shifted: " + output.join(""));
+    output = output.reverse();
+    
+    for (var j = 0; j < output.length; j+=2) {
+      output[j] = String.fromCharCode((output[j].charCodeAt() + level));
+    }
     var result = output.join("");
     return result;
 }
-function decrypt(input) {
-    var array = input.split("");
-    
-    var output = [];
 
-    output[array.length - 1] = array[0];
-    output[array.length - 2] = array[1];
+function decrypt(input, level) {
+    var output = input.split("");
+  
+    for (var j = 0; j < output.length; j+=2) {
+      output[j] = String.fromCharCode((output[j].charCodeAt() - level));
+    }
+    
+    output = output.reverse();
+    
+     for (var j = 0; j < output.length; j++) {
+      var charcode = output[j].charCodeAt() - level;
+      console.log(charcode);
+      
+      output[j] = String.fromCharCode(charcode);
+    }
+    
+    var array = [];
+
+    array[output.length - 1] = output[0];
+    array[output.length - 2] = output[1];
     
     for(var j = 0; j < array.length - 2; j++) {
-        output[j] = array[j + 2];
+        array[j] = output[j + 2];
     }
-    var result = output.join("");
+  var result = array.join("");
     return result;
 }
