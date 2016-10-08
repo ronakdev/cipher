@@ -32,10 +32,18 @@ function crypt() {
     else {
         output = decrypt(content,10);
     }
-    console.log(output);
     
     document.getElementById("crypt").value = output;
     toggleEncode();
+}
+
+function shift(input, amount) {
+    var output = input.split("");
+    for (var j = 0; j < output.length; j++) {
+      var charcode = output[j].charCodeAt() + amount;
+      output[j] = String.fromCharCode(charcode);
+    }
+    return output.join("");
 }
 
 function encrypt(input,level) {
@@ -49,15 +57,10 @@ function encrypt(input,level) {
     for(var j = 0; j < array.length - 2; j++) {
         output[j + 2] = array[j]
     }
-        console.log("Just Swapped: " + output.join(""));
+    //console.log("Just Swapped: " + output.join(""));
 
-    for (var j = 0; j < output.length; j++) {
-      var charcode = output[j].charCodeAt() + level;
-      console.log(charcode);
-      
-      output[j] = String.fromCharCode(charcode);
-    }
-    console.log("Just Shifted: " + output.join(""));
+    output = (shift(output.join(""), level)).split("");
+   
     output = output.reverse();
     
     for (var j = 0; j < output.length; j+=2) {
@@ -76,12 +79,7 @@ function decrypt(input, level) {
     
     output = output.reverse();
     
-     for (var j = 0; j < output.length; j++) {
-      var charcode = output[j].charCodeAt() - level;
-      console.log(charcode);
-      
-      output[j] = String.fromCharCode(charcode);
-    }
+    output = (shift(output.join(""), (level * -1))).split("");
     
     var array = [];
 
@@ -91,6 +89,59 @@ function decrypt(input, level) {
     for(var j = 0; j < array.length - 2; j++) {
         array[j] = output[j + 2];
     }
-  var result = array.join("");
+    var result = array.join("");
     return result;
+}
+
+/* Experimental */
+
+//Complete, need decrypt for this to function properly though
+function encryptShah(input, level) {
+    var array = input.split("");
+    var output = [];
+    var last = 0;
+    var index = 0;
+    for (var j = 0; j < array.length; j+=2) { //0246
+        output[index] = array[j];
+        index++;
+    }
+    
+    console.log("Midtier Encrypt: " + output.join(""));
+
+    for (var j = 1; j < array.length; j+=2) { //1357
+        output[index] = array[j];
+        index++;
+    }
+    //console.log("Tier 2 Encrypt: " + output.join("")); //debug, not needed anymore
+
+    output = shift(output.join(""), level).split("");
+    output = output.reverse();
+    return output.join("");
+}
+
+//TODO: Finish
+function decryptShah(input, level) {
+    var array = input.split("");
+    array = array.reverse();
+    var output = (shift(array.join(""), (level * -1))).split("");
+    //console.log("Tier 2 Decrypt: " + output.join("")); //debug, not needed anymore
+    //Works up to here
+    
+    array = output;
+    output = [];
+    var index = 1;
+    for (var j = 0; j < array.length; j++) { //0246
+        output[j] = array[index];
+        index+= 2;
+    }
+    console.log("Midtier Decrypt: " + output.join(""));
+
+    index = 0;
+    for (var j = 1; j < array.length; j++) { //1357
+        output[j] = array[index];
+        index+= 2;
+    }
+    
+    return output.join("");
+    
 }
