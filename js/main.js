@@ -27,10 +27,10 @@ function crypt() {
     var output = "";
     console.log(content);
     if(encode) {
-        output = (encrypt(content,10));
+        output = (encryptShah(content,10));
     }
     else {
-        output = decrypt(content,10);
+        output = decryptShah(content,10);
     }
     
     document.getElementById("crypt").value = output;
@@ -95,53 +95,60 @@ function decrypt(input, level) {
 
 /* Experimental */
 
-//Complete, need decrypt for this to function properly though
+//Encrypts a string to a Shah Cipher with a specified shift level
 function encryptShah(input, level) {
     var array = input.split("");
     var output = [];
     var last = 0;
     var index = 0;
+    console.log("Final Tier Encrypt: " + array.join(""));
     for (var j = 0; j < array.length; j+=2) { //0246
         output[index] = array[j];
         index++;
     }
     
-    console.log("Midtier Encrypt: " + output.join(""));
 
     for (var j = 1; j < array.length; j+=2) { //1357
         output[index] = array[j];
         index++;
     }
-    //console.log("Tier 2 Encrypt: " + output.join("")); //debug, not needed anymore
 
     output = shift(output.join(""), level).split("");
     output = output.reverse();
     return output.join("");
 }
 
-//TODO: Finish
+//Decrypts a Shah Cipher string for a shift level
 function decryptShah(input, level) {
     var array = input.split("");
     array = array.reverse();
     var output = (shift(array.join(""), (level * -1))).split("");
-    //console.log("Tier 2 Decrypt: " + output.join("")); //debug, not needed anymore
     //Works up to here
     
     array = output;
     output = [];
-    var index = 1;
-    for (var j = 0; j < array.length; j++) { //0246
-        output[j] = array[index];
-        index+= 2;
+    var index = 0;
+    var temp = 0;
+    for (var j = 0; j < array.length; j++) { 
+        if (!(index < array.length)) {
+            //alert("break");
+            break;
+        }
+        output[index] = array[j];
+        index += 2;
+        temp = j;
     }
-    console.log("Midtier Decrypt: " + output.join(""));
 
-    index = 0;
-    for (var j = 1; j < array.length; j++) { //1357
-        output[j] = array[index];
+    index = 1;
+    temp++;
+    for (var j = temp; j < array.length; j++) { 
+        if (!(index < array.length)) {
+            break;
+        }
+        output[index] = array[j];
         index+= 2;
     }
-    
+
     return output.join("");
     
 }
