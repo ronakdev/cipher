@@ -1,42 +1,25 @@
-var encode = true;
-var str='function getFlag() {  return "flag is {omfg_stop_encrypting_stuff}";}console.log(getFlag());';
-console.log("Encrypted File: " + encryptShah(str, 10));
-console.log("Decrypted File: " + decryptShah(encryptShah(str,10), 10))
-function toggleEncode() {
-    encode = !encode;
-    document.getElementById('myonoffswitch').click();
-    var checkbox = document.getElementById("myonoffswitch");
-    checkbox.checked = true;
-    if (encode) {
-        document.getElementById("action").innerHTML = "Encode";
-    }
-    else {
-        document.getElementById("action").innerHTML = "Decode";
-    }
+var fs = require('fs');
+
+var inputFile = process.argv[2];
+
+getFileContent(inputFile, n)
+function getFileContent(srcPath, callback) {
+    fs.readFile(srcPath, 'utf8', function (err, data) {
+        if (err) throw err;
+        callback(data);
+        }
+    );
 }
 
-document.getElementById('crypt').onkeypress = function(e){
-    if (!e) e = window.event;
-    var keyCode = e.keyCode || e.which;
-    if (keyCode == '13'){
-      crypt();
-      return false;
-    }
+function copyFileContent(savPath, srcPath) {
+    getFileContent(srcPath, function(data) {
+        fs.writeFile (savPath, data, function(err) {
+            if (err) throw err;
+            console.log('complete');
+        });
+    });
 }
 
-function crypt() {
-    var content = document.getElementById("crypt").value;
-    var output = "";
-    if(encode) {
-        output = (encryptShah(content,10));
-    }
-    else {
-        output = decryptShah(content,10);
-    }
-
-    document.getElementById("crypt").value = output;
-    toggleEncode();
-}
 
 function shift(input, amount) {
     var output = input.split("");
@@ -58,6 +41,7 @@ function encrypt(input,level) {
     for(var j = 0; j < array.length - 2; j++) {
         output[j + 2] = array[j]
     }
+    //console.log("Just Swapped: " + output.join(""));
 
     output = (shift(output.join(""), level)).split("");
 
@@ -101,6 +85,7 @@ function encryptShah(input, level) {
     var output = [];
     var last = 0;
     var index = 0;
+    console.log("Final Tier Encrypt: " + array.join(""));
     for (var j = 0; j < array.length; j+=2) { //0246
         output[index] = array[j];
         index++;

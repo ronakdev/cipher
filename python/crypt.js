@@ -1,42 +1,25 @@
-var encode = true;
-var str='function getFlag() {  return "flag is {omfg_stop_encrypting_stuff}";}console.log(getFlag());';
-console.log("Encrypted File: " + encryptShah(str, 10));
-console.log("Decrypted File: " + decryptShah(encryptShah(str,10), 10))
-function toggleEncode() {
-    encode = !encode;
-    document.getElementById('myonoffswitch').click();
-    var checkbox = document.getElementById("myonoffswitch");
-    checkbox.checked = true;
-    if (encode) {
-        document.getElementById("action").innerHTML = "Encode";
-    }
-    else {
-        document.getElementById("action").innerHTML = "Decode";
-    }
+var fs = require('fs');
+
+var inputFile = process.argv[2];
+
+getFileContent(inputFile, n)
+function getFileContent(srcPath, callback) { 
+    fs.readFile(srcPath, 'utf8', function (err, data) {
+        if (err) throw err;
+        callback(data);
+        }
+    );
 }
 
-document.getElementById('crypt').onkeypress = function(e){
-    if (!e) e = window.event;
-    var keyCode = e.keyCode || e.which;
-    if (keyCode == '13'){
-      crypt();
-      return false;
-    }
+function copyFileContent(savPath, srcPath) { 
+    getFileContent(srcPath, function(data) {
+        fs.writeFile (savPath, data, function(err) {
+            if (err) throw err;
+            console.log('complete');
+        });
+    });
 }
 
-function crypt() {
-    var content = document.getElementById("crypt").value;
-    var output = "";
-    if(encode) {
-        output = (encryptShah(content,10));
-    }
-    else {
-        output = decryptShah(content,10);
-    }
-
-    document.getElementById("crypt").value = output;
-    toggleEncode();
-}
 
 function shift(input, amount) {
     var output = input.split("");
@@ -49,20 +32,21 @@ function shift(input, amount) {
 
 function encrypt(input,level) {
     var array = input.split("");
-
+    
     var output = [];
 
     output[0] = array[array.length - 1];
     output[1] = array[array.length - 2];
-
+    
     for(var j = 0; j < array.length - 2; j++) {
         output[j + 2] = array[j]
     }
+    //console.log("Just Swapped: " + output.join(""));
 
     output = (shift(output.join(""), level)).split("");
-
+   
     output = output.reverse();
-
+    
     for (var j = 0; j < output.length; j+=2) {
       output[j] = String.fromCharCode((output[j].charCodeAt() + level));
     }
@@ -72,20 +56,20 @@ function encrypt(input,level) {
 
 function decrypt(input, level) {
     var output = input.split("");
-
+  
     for (var j = 0; j < output.length; j+=2) {
       output[j] = String.fromCharCode((output[j].charCodeAt() - level));
     }
-
+    
     output = output.reverse();
-
+    
     output = (shift(output.join(""), (level * -1))).split("");
-
+    
     var array = [];
 
     array[output.length - 1] = output[0];
     array[output.length - 2] = output[1];
-
+    
     for(var j = 0; j < array.length - 2; j++) {
         array[j] = output[j + 2];
     }
@@ -101,11 +85,12 @@ function encryptShah(input, level) {
     var output = [];
     var last = 0;
     var index = 0;
+    console.log("Final Tier Encrypt: " + array.join(""));
     for (var j = 0; j < array.length; j+=2) { //0246
         output[index] = array[j];
         index++;
     }
-
+    
 
     for (var j = 1; j < array.length; j+=2) { //1357
         output[index] = array[j];
@@ -123,12 +108,12 @@ function decryptShah(input, level) {
     array = array.reverse();
     var output = (shift(array.join(""), (level * -1))).split("");
     //Works up to here
-
+    
     array = output;
     output = [];
     var index = 0;
     var temp = 0;
-    for (var j = 0; j < array.length; j++) {
+    for (var j = 0; j < array.length; j++) { 
         if (!(index < array.length)) {
             //alert("break");
             break;
@@ -140,7 +125,7 @@ function decryptShah(input, level) {
 
     index = 1;
     temp++;
-    for (var j = temp; j < array.length; j++) {
+    for (var j = temp; j < array.length; j++) { 
         if (!(index < array.length)) {
             break;
         }
@@ -149,5 +134,6 @@ function decryptShah(input, level) {
     }
 
     return output.join("");
-
+    
 }
+
