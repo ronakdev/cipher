@@ -1,26 +1,60 @@
-var fs = require('fs');
+fs = require('fs')
+var enc = true;
 
-var inputFile = process.argv[2];
-
-getFileContent(inputFile, n)
-function getFileContent(srcPath, callback) { 
-    fs.readFile(srcPath, 'utf8', function (err, data) {
-        if (err) throw err;
-        callback(data);
-        }
-    );
+var mode = process.argv[2];
+if (mode == "-d")  {
+    enc = false;
 }
+else if (mode == "-e"){
+    enc = true;
+}
+var file = process.argv[3];
+runProgram(file);
 
-function copyFileContent(savPath, srcPath) { 
-    getFileContent(srcPath, function(data) {
-        fs.writeFile (savPath, data, function(err) {
-            if (err) throw err;
-            console.log('complete');
-        });
+function runProgram(fileName) {
+    fs.readFile(fileName, 'utf8', function (err,data) {
+    if (err) {
+        return console.log(err);
+    }
+    //now we have the data :D
+    var dat = data + "";
+    var output = "";
+    var outputName = fileName;
+    if (enc) {
+        output = encryptShah(dat, 10);
+        outputName = "enc-" + outputName;
+    }
+    else {
+        output = decryptShah(dat, 10);
+        outputName = "dec-" + outputName;
+    }
+    writeFile(outputName, output);
     });
 }
 
+function reverse(str) {
+    var arr = str.split("");
+    arr = arr.reverse();
+    return arr.join("");
+}
 
+
+function readFile(fileName) {
+    fs.readFile(fileName, 'utf8', function (err,data) {
+    if (err) {
+        return console.log(err);
+    }
+    return data;
+    });
+}
+
+function writeFile(fileName, content) {
+    fs.writeFile(fileName, content, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+    });
+}
 function shift(input, amount) {
     var output = input.split("");
     for (var j = 0; j < output.length; j++) {
@@ -32,21 +66,20 @@ function shift(input, amount) {
 
 function encrypt(input,level) {
     var array = input.split("");
-    
+
     var output = [];
 
     output[0] = array[array.length - 1];
     output[1] = array[array.length - 2];
-    
+
     for(var j = 0; j < array.length - 2; j++) {
         output[j + 2] = array[j]
     }
-    //console.log("Just Swapped: " + output.join(""));
 
     output = (shift(output.join(""), level)).split("");
-   
+
     output = output.reverse();
-    
+
     for (var j = 0; j < output.length; j+=2) {
       output[j] = String.fromCharCode((output[j].charCodeAt() + level));
     }
@@ -56,20 +89,20 @@ function encrypt(input,level) {
 
 function decrypt(input, level) {
     var output = input.split("");
-  
+
     for (var j = 0; j < output.length; j+=2) {
       output[j] = String.fromCharCode((output[j].charCodeAt() - level));
     }
-    
+
     output = output.reverse();
-    
+
     output = (shift(output.join(""), (level * -1))).split("");
-    
+
     var array = [];
 
     array[output.length - 1] = output[0];
     array[output.length - 2] = output[1];
-    
+
     for(var j = 0; j < array.length - 2; j++) {
         array[j] = output[j + 2];
     }
@@ -77,20 +110,17 @@ function decrypt(input, level) {
     return result;
 }
 
-/* Experimental */
-
 //Encrypts a string to a Shah Cipher with a specified shift level
 function encryptShah(input, level) {
     var array = input.split("");
     var output = [];
     var last = 0;
     var index = 0;
-    console.log("Final Tier Encrypt: " + array.join(""));
     for (var j = 0; j < array.length; j+=2) { //0246
         output[index] = array[j];
         index++;
     }
-    
+
 
     for (var j = 1; j < array.length; j+=2) { //1357
         output[index] = array[j];
@@ -108,12 +138,12 @@ function decryptShah(input, level) {
     array = array.reverse();
     var output = (shift(array.join(""), (level * -1))).split("");
     //Works up to here
-    
+
     array = output;
     output = [];
     var index = 0;
     var temp = 0;
-    for (var j = 0; j < array.length; j++) { 
+    for (var j = 0; j < array.length; j++) {
         if (!(index < array.length)) {
             //alert("break");
             break;
@@ -125,7 +155,7 @@ function decryptShah(input, level) {
 
     index = 1;
     temp++;
-    for (var j = temp; j < array.length; j++) { 
+    for (var j = temp; j < array.length; j++) {
         if (!(index < array.length)) {
             break;
         }
@@ -134,6 +164,5 @@ function decryptShah(input, level) {
     }
 
     return output.join("");
-    
-}
 
+}
