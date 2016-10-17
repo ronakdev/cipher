@@ -1,0 +1,28 @@
+{
+  "name": "shah-crypt",
+  "version": "0.0.2",
+  "description": "Uses the Shah Cipher to encrypt and decrypt files",
+  "main": "crypt.js",
+  "scripts": {
+    "test": "echo \"Sample Usage Can Be Found @ ronakshah.net/cipher && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronakdev/cipher.git"
+  },
+  "keywords": [
+    "cryptography",
+    "shah",
+    "cipher",
+    "encrypt",
+    "files",
+    "secure",
+    "files"
+  ],
+  "author": "Ronak Shah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ronakdev/cipher/issues"
+  },
+  "homepage": "https://github.com/ronakdev/cipher#readme"
+}

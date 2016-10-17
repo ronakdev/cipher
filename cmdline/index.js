@@ -1,3 +1,9 @@
+exports.encryptFile = function(fileName, level) {
+    runProgram(fileName, level, true);
+}
+exports.decryptFile = function(fileName, level) {
+    runProgram(fileName, level, false);
+}
 fs = require('fs')
 var enc = true;
 
@@ -10,9 +16,9 @@ else if (mode == "-e"){
 }
 var file = process.argv[3];
 var level = process.argv[4];
-runProgram(file, level);
+runProgram(file, level, enc);
 
-function runProgram(fileName, level) {
+function runProgram(fileName, level, enc) {
     fs.readFile(fileName, 'utf8', function (err,data) {
     if (err) {
         return console.log(err);

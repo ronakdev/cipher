@@ -9,10 +9,9 @@ else if (mode == "-e"){
     enc = true;
 }
 var file = process.argv[3];
-var level = process.argv[4];
-runProgram(file, level);
+runProgram(file);
 
-function runProgram(fileName, level) {
+function runProgram(fileName) {
     fs.readFile(fileName, 'utf8', function (err,data) {
     if (err) {
         return console.log(err);
@@ -22,11 +21,11 @@ function runProgram(fileName, level) {
     var output = "";
     var outputName = fileName;
     if (enc) {
-        output = encryptShah(dat, level);
+        output = encryptShah(dat, 10l);
         outputName = "enc-" + outputName;
     }
     else {
-        output = decryptShah(dat, level);
+        output = decryptShah(dat, 10);
         outputName = "dec-" + outputName;
     }
     writeFile(outputName, output);

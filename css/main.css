@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Open+Sans';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans|Raleway';
 
 html,body{
     background-color: #303F9F;
@@ -17,20 +17,27 @@ input {
    
 }
 #crypt {
-    width: 65%;
+    width: 70%;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     font-size: 5em;
     color: white;
 }
 
-#settings {
-    width: 35%;
+.settings {
+    width: 30%;
     font-family: 'Open Sans', sans-serif;
     font-size: 2em;
     color: white;
     background-color: #C5CAE9;
     
+}
+.settings em {
+    font-style: normal;
+    text-decoration: underline;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2em;
+    color: black;
 }
 *:focus {
     outline: none;
@@ -46,7 +53,7 @@ input {
         width: 50%;
         font-size:1em;
     }
-    #settings {
+    .settings {
         width: 50%;
         font-size: 1em;
     }
@@ -57,13 +64,26 @@ input {
         width: 50%;
         font-size:1.5em;
     }
-    #settings {
+    .settings {
         width: 50%;
         font-size: 1.5em;
     }
   }
 
- 
+.encode {
+    color: #4CAF50;
+}
+
+.decode {
+    color: #D32F2F;
+}
+
+#level {
+    font-size: 1em;
+    color: #FF4081;
+    text-align: right;
+    width: auto;
+}
 /*  Buttons  */
 .material-button {
   position: relative;

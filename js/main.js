@@ -2,16 +2,37 @@ var encode = true;
 var str='function getFlag() {  return "flag is {omfg_stop_encrypting_stuff}";}console.log(getFlag());';
 console.log("Encrypted File: " + encryptShah(str, 10));
 console.log("Decrypted File: " + decryptShah(encryptShah(str,10), 10))
-function toggleEncode() {
+
+function checkEncode() {
+    var lfckv = document.getElementById("myonoffswitch").checked;
+    encode = lfckv;
+}
+
+function toggle() {
     encode = !encode;
-    document.getElementById('myonoffswitch').click();
-    var checkbox = document.getElementById("myonoffswitch");
-    checkbox.checked = true;
+    var state = document.getElementById("encodeState");
     if (encode) {
-        document.getElementById("action").innerHTML = "Encode";
+        state.innerHTML = "Encoding";
+        state.className = "encode";
     }
     else {
-        document.getElementById("action").innerHTML = "Decode";
+        state.innerHTML = "Decoding";
+        state.className = "decode";
+    }
+}
+function toggleEncode() {
+    encode = !encode;
+    var checkbox = document.getElementById("myonoffswitch");
+ 
+    
+    var state = document.getElementById("encodeState");
+    if (encode) {
+        state.innerHTML = "Encoding";
+        state.className = "encode";
+    }
+    else {
+        state.innerHTML = "Decoding";
+        state.className = "decode";
     }
 }
 
@@ -27,11 +48,12 @@ document.getElementById('crypt').onkeypress = function(e){
 function crypt() {
     var content = document.getElementById("crypt").value;
     var output = "";
+    var level = parseInt(document.getElementById("level").value);
     if(encode) {
-        output = (encryptShah(content,10));
+        output = (encryptShah(content,level));
     }
     else {
-        output = decryptShah(content,10);
+        output = decryptShah(content,level);
     }
 
     document.getElementById("crypt").value = output;
