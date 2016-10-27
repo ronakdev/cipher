@@ -12,7 +12,7 @@ The Shah Cipher is a project I wrote in High School to test out some encryption 
 
 ##Plans
 
-1. Allow for file encryption
+1. ~~Allow for file encryption~~ (completed)
   *  Should be usable like so: ```encrypt file.txt```
 2. Implement a hashing system (like ```MD5```) so the algorithm becomes more secure
 
