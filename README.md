@@ -1,16 +1,16 @@
-#<a href="http://ronakshah.net/cipher" target="_blank">The Shah Cipher</a>
+# <a href="http://ronakshah.net/cipher" target="_blank">The Shah Cipher</a>
 
-###n|a6vovy*yvR
+### n|a6vovy*yvR
 
-Thats Shah Cipher for 
+That's Shah Cipher for 
 
-###Hello, World
+### Hello, World
 
-##What is the Shah Cipher?
+## What is the Shah Cipher?
 
 The Shah Cipher is a project I wrote in High School to test out some encryption methods I was thinking of. Now, I've created an easy to use interface that lets the user see it in action.
 
-##Plans
+## Plans
 
 1. ~~Allow for file encryption~~ (completed)
   *  Should be usable like so: ```encrypt file.txt```
